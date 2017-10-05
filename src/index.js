@@ -17,9 +17,6 @@ React.Component.prototype["unsubscribe"] = PubSubHelper["unsubscribe"];
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
 
 
-
-
-
 //REDUX STORE//
 const getReduxExtension = ()=> {
   if(window.__REDUX_DEVTOOLS_EXTENSION__) {
