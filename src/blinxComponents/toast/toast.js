@@ -1,13 +1,11 @@
 //Styles
-import  "./styles/default.less";
-import  "./styles/toast.less";
+import  "./styles/default.css";
 
 //Templates
 import moduleTemplate from "./templates/toast.html";
 import toastContainerTemplate from "./templates/toastContainer.html";
 
-//JS
-import DomHelper from "customExtensions/dom";
+
 
 function removeAfter(toastNode, time) {
     time = (time != null) ? time : 30000;
@@ -25,23 +23,26 @@ function addToast(oThis, options) {
     options.typeClass = options.type;
     options.showClose = options.showClose ? options.showClose : true;
 
+    var toastNode = document.querySelector(".toast-container");
+    toastNode.innerHTML = moduleTemplate(options);
+    setTimeout(function () {
+        toastNode.innerHTML = ""
+    }, 2000);
+    //oThis.toastCloseNode = toastNode.find(".close", 0);
 
-    var toastNode = DomHelper.getDomNode(moduleTemplate(options));
-    oThis.toastCloseNode = toastNode.find(".close", 0);
+    //oThis.toastCloseNode.on("click", function () {
+    //    toastNode.remove();
+    //});
 
-    oThis.toastCloseNode.on("click", function () {
-        toastNode.remove();
-    });
-
-    oThis.toastContainerNode.prependDOM(toastNode);
-    removeAfter(toastNode, options.timeout);
+    //oThis.toastContainerNode.prependDOM(toastNode);
+    
 }
 
 function render() {
-    this.containerNode = DomHelper.getDomNode(this.getModuleContainer());
+    this.containerNode = document.querySelector(this.getModuleContainer());
 
-    this.containerNode.setHtml(toastContainerTemplate());
-    this.toastContainerNode = DomHelper.getDomNode(this.getModuleContainer()).find('.toast-container');
+    this.containerNode.innerHTML = toastContainerTemplate();
+    this.toastContainerNode = document.querySelector('.toast-container');
 }
 
 function showError(data) {

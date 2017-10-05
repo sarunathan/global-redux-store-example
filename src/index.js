@@ -8,8 +8,31 @@ import ToDoSummary from './containers/ToDoSummary'
 import reducer from './reducers'
 import configRouter from "config-router";
 import reactExtension from "react-blinx-extension";
-import Truss from "blinx";
+import Truss,{PubSubHelper} from "blinx";
 
+
+// ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
+const publish = PubSubHelper["publish"];
+
+React.Component.prototype["publish"] = function (...args) {
+    if (args.length == 2) {
+        publish.call(PubSubHelper, this.props.container, ...args)
+    }
+    else {
+        publish.call(PubSubHelper, ...args)
+    }
+};
+/* Monkey patching pubsub to send container */
+
+React.Component.prototype["subscribe"] = PubSubHelper["subscribe"];
+React.Component.prototype["unsubscribe"] = PubSubHelper["unsubscribe"];
+// ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
+
+
+
+
+
+//REDUX STORE//
 const getReduxExtension = ()=> {
   if(window.__REDUX_DEVTOOLS_EXTENSION__) {
     return window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -30,10 +53,14 @@ const globalStore = createStore((state = 0, action) => {
   }
 }, getReduxExtension())
 
-
 let GlobalProvider = createProvider("global");
+//REDUX STORE//
 
 
+
+
+
+// ROUTES
 configRouter.init({
   default: Truss,
   blinx: Truss,
@@ -58,14 +85,21 @@ let routes = [{
   path: "/toast",
   name: "global.toast",
   moduleConfig: {
-      moduleName: 'globalComponent',
-      instanceType: "react",
+      moduleName: 'toast',
       instanceConfig: {
-          container: '#root'
+          container: '#toast',
+          listensTo: [{
+            eventName: "SHOW_TOAST_SUCCESS",
+            callback: "showSuccess"
+        }, {
+            eventName: "SHOW_TOAST_ERROR",
+            callback: "showError"
+        }, {
+            eventName: "SHOW_TOAST_INFO",
+            callback: "showInfo"
+        }]
       },
-      module: () => <GlobalProvider store={globalStore}>
-                      <ToDoSummary/>
-                  </GlobalProvider>
+      module: Toast
   }
 },{
   path: "/personaltodo",
@@ -130,4 +164,6 @@ var bundler = function bundler() {
 configRouter.usePlugin(bundler());
 // Start Router
 configRouter.start();
+
+// ROUTES
 
