@@ -12,18 +12,6 @@ import Truss,{PubSubHelper} from "blinx";
 
 
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
-const publish = PubSubHelper["publish"];
-
-React.Component.prototype["publish"] = function (...args) {
-    if (args.length == 2) {
-        publish.call(PubSubHelper, this.props.container, ...args)
-    }
-    else {
-        publish.call(PubSubHelper, ...args)
-    }
-};
-/* Monkey patching pubsub to send container */
-
 React.Component.prototype["subscribe"] = PubSubHelper["subscribe"];
 React.Component.prototype["unsubscribe"] = PubSubHelper["unsubscribe"];
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
