@@ -10,6 +10,8 @@ import configRouter from "config-router";
 import reactExtension from "react-blinx-extension";
 import Truss,{PubSubHelper} from "blinx";
 
+let PersonalTodo = <App title="Iam a personal to do list" />
+let WorkTodo = <App title="Iam a work to do list" />
 
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
 React.Component.prototype["subscribe"] = PubSubHelper["subscribe"];
@@ -56,6 +58,7 @@ configRouter.init({
 
 
 let routes = [{
+  // SIMILAR TO DASHBOARD COMPOSITE
   path: "/global",
   name: "global",
   moduleConfig: {
@@ -89,6 +92,7 @@ let routes = [{
       module: Toast
   }
 },{
+  // SIMILAR TO LISTINGS|PROMOTIONS|FA|PAYMENTS
   path: "/personaltodo",
   name: "global.toast.personaltodo",
   moduleConfig: {
@@ -99,12 +103,13 @@ let routes = [{
       },
       module: () => <GlobalProvider store={globalStore}>
                           <Provider store={personalTodoStore}>
-                            <App title="Iam a personal to do list" />
+                            <PersonalTodo/>
                           </Provider>
                     </GlobalProvider>
   }
 },
 {
+  // SIMILAR TO LISTINGS|PROMOTIONS|FA|PAYMENTS
   path: "/worktodo",
   name: "global.toast.worktodo",
   moduleConfig: {
@@ -115,7 +120,7 @@ let routes = [{
       },
       module: () => <GlobalProvider store={globalStore}>
                           <Provider store={workTodoStore}>
-                            <App title="Iam a work to do list" />
+                            <WorkTodo/>
                           </Provider>
                     </GlobalProvider>
   }

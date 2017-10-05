@@ -13,7 +13,9 @@ class AddTodo extends React.Component {
       if (!input.value.trim()) {
         return
       }
-      globalDispatch()
+      globalDispatch({
+        type:"TODO_ADDED"
+      })
       dispatch(input.value)
       this.publish("SHOW_TOAST_SUCCESS",{
         text: "To Do is added"
@@ -36,10 +38,8 @@ class AddTodo extends React.Component {
 
 
 const mapGlobalDispatchToProps = (dispatch, ownProps) => ({
-  globalDispatch: () => {
-    dispatch({
-      type:"TODO_ADDED"
-    })
+  globalDispatch: (v) => {
+    dispatch(v)
   }
 })
 
