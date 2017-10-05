@@ -17,13 +17,17 @@ React.Component.prototype["unsubscribe"] = PubSubHelper["unsubscribe"];
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
 
 
-//REDUX STORE//
+//REDUX STORE EXTENSION//
 const getReduxExtension = ()=> {
   if(window.__REDUX_DEVTOOLS_EXTENSION__) {
     return window.__REDUX_DEVTOOLS_EXTENSION__()
   }
 }
+//REDUX STORE EXTENSION//
 
+
+
+//REDUX STORE//
 const personalTodoStore = createStore(reducer, getReduxExtension())
 const workTodoStore = createStore(reducer, getReduxExtension())
 
@@ -40,8 +44,6 @@ const globalStore = createStore((state = 0, action) => {
 
 let GlobalProvider = createProvider("global");
 //REDUX STORE//
-
-
 
 
 
