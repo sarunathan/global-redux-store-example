@@ -1,15 +1,17 @@
 import { connect } from 'react-redux'
 import React from 'react'
 
-const ToDoSummary = ({toDoList}) => {
+const ToDoSummary = ({toDoList,completedTodos}) => {
   return <div>
-      Overall todos added - {toDoList}
+      Overall todos added - {toDoList} <br/>
+      Overall completed todos - {completedTodos}
     </div>
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    toDoList :  state
+    toDoList :  state.todos,
+    completedTodos: state.completedTodos
   }
 }
 

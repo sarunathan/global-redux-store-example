@@ -25,9 +25,23 @@ const mapDispatchToProps = {
   onTodoClick: toggleTodo
 }
 
-const VisibleTodoList = connect(
+let VisibleTodoList = connect(
   mapStateToProps,
   mapDispatchToProps
 )(TodoList)
+
+
+let mapGlobalDispatchToProps = (dispatch)=>({
+  globalDispatch: () => {
+    dispatch({type:"ADD_COMPLETED"})
+  }
+})
+
+VisibleTodoList = connect(
+  null,
+  mapGlobalDispatchToProps,
+  null,
+  {storeKey:"global"}
+)(VisibleTodoList)
 
 export default VisibleTodoList

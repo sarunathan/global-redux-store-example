@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { combineReducers } from 'redux'
 import { createStore } from 'redux'
 import { Provider, createProvider } from 'react-redux'
 import App from './components/App'
@@ -14,6 +15,20 @@ let PersonalTodo = <App title="Iam a personal to do list" />
 let WorkTodo = <App title="Iam a work to do list" />
 
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
+
+/* Monkey patching pubsub to send container in the eventpublisher */
+const publish = PubSubHelper["publish"];
+
+React.Component.prototype["publish"] = function (...args) {
+    if (args.length == 2) {
+        publish.call(PubSubHelper, this.props.container, ...args)
+    }
+    else {
+        publish.call(PubSubHelper, ...args)
+    }
+};
+/* Monkey patching pubsub to send container */
+
 React.Component.prototype["subscribe"] = PubSubHelper["subscribe"];
 React.Component.prototype["unsubscribe"] = PubSubHelper["unsubscribe"];
 // ADDING JUST FOR DEMO -> WILL BE THERE IN REACT_BLINX_EXTENSION ITSELF//
@@ -33,16 +48,29 @@ const getReduxExtension = ()=> {
 const personalTodoStore = createStore(reducer, getReduxExtension())
 const workTodoStore = createStore(reducer, getReduxExtension())
 
-const globalStore = createStore((state = 0, action) => {
-  switch (action.type) {
-    case 'TODO_ADDED':
-      return ++state
-    case 'TODO_REMOVED':
-      return --state
-    default:
-      return state
+
+const CombinedReducer = combineReducers({
+  completedTodos : (state = 0,action) => {
+    switch (action.type) {
+      case 'ADD_COMPLETED':
+        return ++state
+      default:
+        return state
+    }
+  },
+  todos : (state = 0, action) => {
+    switch (action.type) {
+      case 'TODO_ADDED':
+        return ++state
+      case 'TODO_REMOVED':
+        return --state
+      default:
+        return state
+    }
   }
-}, getReduxExtension())
+})
+
+const globalStore = createStore(CombinedReducer, getReduxExtension())
 
 let GlobalProvider = createProvider("global");
 //REDUX STORE//
@@ -103,7 +131,7 @@ let routes = [{
       },
       module: () => <GlobalProvider store={globalStore}>
                           <Provider store={personalTodoStore}>
-                            <PersonalTodo/>
+                            {PersonalTodo}
                           </Provider>
                     </GlobalProvider>
   }
@@ -120,7 +148,7 @@ let routes = [{
       },
       module: () => <GlobalProvider store={globalStore}>
                           <Provider store={workTodoStore}>
-                            <WorkTodo/>
+                            {WorkTodo}
                           </Provider>
                     </GlobalProvider>
   }
