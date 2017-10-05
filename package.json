@@ -4,12 +4,15 @@
   "private": true,
   "dependencies": {
     "babel-plugin-transform-es2015-template-literals": "^6.22.0",
+    "blinx": "^0.9.73",
+    "config-router": "^1.0.3",
     "prop-types": "^15.5.10",
     "react": "^15.5.0",
+    "react-blinx-extension": "^1.1.0",
     "react-dom": "^15.5.0",
     "react-redux": "git+https://github.com/reactjs/react-redux",
-    "redux": "^3.5.2",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.14",
+    "redux": "^3.5.2"
   },
   "scripts": {
     "start": "react-scripts start",

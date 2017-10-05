@@ -10,10 +10,8 @@ let AddTodo = ({ globalDispatch,dispatch }) => {
     if (!input.value.trim()) {
       return
     }
-    globalDispatch({
-      type:"TODO_ADDED"
-    })
-    dispatch(addTodo(input.value))
+    globalDispatch()
+    dispatch(input.value)
     input.value = ''
   }
 
@@ -32,22 +30,20 @@ let AddTodo = ({ globalDispatch,dispatch }) => {
 
 
 const mapGlobalDispatchToProps = (dispatch, ownProps) => ({
-  globalDispatch: (v) => {
-    dispatch(v)
+  globalDispatch: () => {
+    dispatch({
+      type:"TODO_ADDED"
+    })
   }
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   dispatch: (v) => {
-    dispatch(v)
+    dispatch(addTodo(v))
   }
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  return Object.assign({}, ownProps, stateProps, dispatchProps);
-}
-
-AddTodo = connect(null,mapGlobalDispatchToProps,mergeProps,{storeKey:"global"})(AddTodo)
-AddTodo = connect(null,mapDispatchToProps,mergeProps)(AddTodo)
+AddTodo = connect(null,mapGlobalDispatchToProps,null,{storeKey:"global"})(AddTodo)
+AddTodo = connect(null,mapDispatchToProps,null)(AddTodo)
 
 export default AddTodo

@@ -21,35 +21,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
  export default connect(mapStateToProps,
   mapDispatchToProps,
-  (ownProps, stateProps, dispatchProps)=>(Object.assign({}, ownProps, stateProps, dispatchProps)),
+  null,
  {"storeKey":"global"})
  (ToDoSummary)
-
-/*let connectSummary = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  (ownProps, stateProps, dispatchProps)=>(Object.assign({}, ownProps, stateProps, dispatchProps)),
-  {"storeKey":"global"}
-)(ToDoSummary)
-
-
-const mapStateToPropsGlobal = (state, ownProps) => {
-  return {
-    visiblity :  state.visibilityFilter
-  }
-}
-
-const mapDispatchToPropsGlobal = (dispatch, ownProps) => ({
-  addedGlobal: (v) => {
-    dispatch(v)
-  }
- })
-
-
-let locaConnectSummary = connect(
-  mapStateToPropsGlobal,
-  mapDispatchToPropsGlobal,
-  (ownProps, stateProps, dispatchProps)=>(Object.assign({}, ownProps, stateProps, dispatchProps))
-)(connectSummary)
-
-export default locaConnectSummary*/
